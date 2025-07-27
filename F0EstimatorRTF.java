@@ -37,75 +37,88 @@ public class F0EstimatorRTF {
         }
 
         int m = Zeilen.size(); // Variable für die Anzahl der eingelesenen Zeilen
-        int tatsächlich = new HashSet<>(Zeilen).size(); // Tatsächliche Anzahl unterschiedlicher Zeilen
+        int tatsächlich = new HashSet<>(Zeilen).size(); 
+        // Tatsächliche Anzahl unterschiedlicher Zeilen
         System.out.printf(" Zeilen gelesen: %d\n Epsylon= %.4f | Delta = %.4f | Durchlaeufe = %d\n", m, Epsilon, Delta, Durchlaeufe); 
         // Ausgabe der Parameter und Anzahl eingelesener Zeilen an den Nutzer
 
-        List<Double> Schätzungen = new ArrayList<>(); // Eigene Liste für die Schätzungen F₀
-        List<Long> Speicherverbrauch = new ArrayList<>(); // Liste für den Speicherplatzverbrauch der Schätzungen
-        long LaufzeitGesamt = 0; // Gesamtlaufzeit aller Durchläufe in Nanosekunden
-        int erfolgreicheDurchläufe = 0; // Anzahl erfolgreicher Durchläufe
+        List<Double> Schätzungen = new ArrayList<>(); 
+        // Eigene Liste für die Schätzungen F₀
+        List<Long> Speicherverbrauch = new ArrayList<>(); 
+        // Liste für den Speicherplatzverbrauch der Schätzungen
+        long LaufzeitGesamt = 0; 
+        // Gesamtlaufzeit aller Durchläufe in Nanosekunden
+        int erfolgreicheDurchläufe = 0; 
+        // Anzahl erfolgreicher Durchläufe
 
-        for (int Durchlauf = 1; Durchlauf <= Durchlaeufe; Durchlauf++) { // Angegebenen Anzahl an Durchläufen wird durchlaufen
-            long Zeit_Start = System.nanoTime(); // Zeit beim Start des Durchlaufs erfassen
+        for (int Durchlauf = 1; Durchlauf <= Durchlaeufe; Durchlauf++) { 
+            // Angegebenen Anzahl an Durchläufen wird durchlaufen
+            long Zeit_Start = System.nanoTime(); 
+            // Zeit beim Start des Durchlaufs erfassen
 
-            int Schwelle = (int) Math.ceil((12 / Math.pow(Epsilon, 2)) * Math.log(8.0 * m / Delta)); // Berechnung des Schwellwertes
+            int Schwelle = (int) Math.ceil((12 / Math.pow(Epsilon, 2)) * Math.log(8.0 * m / Delta)); 
+            // Berechnung des Schwellwertes
             //nach Formel aus der Aufgabenstellung
-            double p = 1.0; // Wahrscheinlichkeit für die Auswahl 
-            //einer Zeile wird zu Beginn auf 1 gesetzt
-            Set<String> X = new HashSet<>(); // Menge X, die die
-            //ausgewählten Zeilen speichert
-            boolean fehlgeschlagen = false; // Flag, das angibt, ob 
-            //der Durchlauf fehlgeschlagen ist
+            double p = 1.0; 
+            // Wahrscheinlichkeit für die Auswahl einer Zeile wird zu Beginn auf 1 gesetzt
+            Set<String> X = new HashSet<>(); 
+            // Menge X, die die ausgewählten Zeilen speichert
+            boolean fehlgeschlagen = false; 
+            // Flag, das angibt, ob der Durchlauf fehlgeschlagen ist
 
             for (String Zeile : Zeilen) { // Durchlauf aller Zeilen in der Liste
-                if (Math.random() < p) { // Zufälliges hinzufügen der Zeile zu X 
-                    //basierend auf Zufallszahl und Wahrscheinlichkeit p
-                    X.add(Zeile); // Falls die Zufallszahl kleiner als p ist, 
-                    //wird die Zeile zur Menge X hinzugefügt
+                if (Math.random() < p) { 
+                    // Zufälliges hinzufügen der Zeile zu X basierend auf Zufallszahl und Wahrscheinlichkeit p
+                    X.add(Zeile);
+                    // Falls die Zufallszahl kleiner als p ist, wird die Zeile zur Menge X hinzugefügt
                 }
-                if (X.size() == Schwelle) { // Prüfung, ob die maximale Anzahl 
-                    //an ausgewählten Zeilen erreicht wurde
-                    Set<String> reduziert = new HashSet<>(); // Reduzierung der maximalen Anzahl 
-                    //an Elementen auf die Hälfte
+                if (X.size() == Schwelle) { 
+                    // Prüfung, ob die maximale Anzahl an ausgewählten Zeilen erreicht wurde
+                    Set<String> reduziert = new HashSet<>();
+                    // Reduzierung der maximalen Anzahl an Elementen auf die Hälfte
                     for (String x : X) { // Durchlauf aller Elemente von X um eventuell Elemente zu entfernen
-                        if (Math.random() < 0.5) { // Neue Zufallszahl für jedes Element sollte 
-                            //diese kleiner als 0.5 sein, wird das Element behalten
-                            reduziert.add(x); // Element wird zur reduzierten Menge hinzugefügt
+                        if (Math.random() < 0.5) { 
+                            // Neue Zufallszahl für jedes Element soll diese kleiner als 0.5 sein, wird das Element behalten
+                            reduziert.add(x); 
+                            // Element wird zur reduzierten Menge hinzugefügt
                         }
                     }
-                    X = reduziert; // Die maximale Anzahl an Elementen in X wird 
-                    //auf die reduzierte Menge gesetzt
-                    p /= 2.0; // Die Wahrscheinlichkeit p wird halbiert, 
-                    //um die Schätzung zu verfeinern
-                    if (X.size() == Schwelle) { // Prüfung, ob die reduzierte Menge
-                        //immer noch zu viele Elemente enthält
-                        fehlgeschlagen = true; // Falls ja, wird der Durchlauf als fehlgeschlagen markiert
-                        break; // Abbruch des aktuellen Durchlaufs, da die Schätzung nicht erfolgreich war
+                    X = reduziert; 
+                    // Die maximale Anzahl an Elementen in X wird auf die reduzierte Menge gesetzt
+                    p /= 2.0; 
+                    // Die Wahrscheinlichkeit p wird halbiert,um die Schätzung zu verfeinern
+                    if (X.size() == Schwelle) { 
+                        // Prüfung, ob die reduzierte Meng immer noch zu viele Elemente enthält
+                        fehlgeschlagen = true;  
+                        //Falls ja, wird der Durchlauf als fehlgeschlagen markiert
+                        break; 
+                        // Abbruch des aktuellen Durchlaufs, da die Schätzung nicht erfolgreich war
                     }
                 }
             }
 
-            long Dauer = System.nanoTime() - Zeit_Start; // Berechnung der Laufzeit 
-            //des aktuellen Durchlaufs
+            long Dauer = System.nanoTime() - Zeit_Start; 
+            // Berechnung der Laufzeit des aktuellen Durchlaufs
 
-            if (!fehlgeschlagen) { // Prüfung, ob der Durchlauf erfolgreich war
-                double Schätzwert = X.size() / p; // Berechnung des Schätzwertes F₀ basierend 
-                //auf der Größe von X und der Wahrscheinlichkeit p
-                Schätzungen.add(Schätzwert); //Hinzufügen des Schätzwertes zur Liste der Schätzungen
-                LaufzeitGesamt += Dauer; // Hinzufügen der Laufzeit des 
-                //aktuellen Durchlaufs zur Gesamtlaufzeit
+            if (!fehlgeschlagen) { 
+                // Prüfung, ob der Durchlauf erfolgreich war
+                double Schätzwert = X.size() / p; 
+                // Berechnung des Schätzwertes F₀ basierend auf der Größe von X und der Wahrscheinlichkeit p
+                Schätzungen.add(Schätzwert); 
+                //Hinzufügen des Schätzwertes zur Liste der Schätzungen
+                LaufzeitGesamt += Dauer; // Hinzufügen der Laufzeit des aktuellen Durchlaufs zur Gesamtlaufzeit
                 erfolgreicheDurchläufe++; // Erhöhung des Zählers für erfolgreiche Durchläufe
 
                 
-                int zeichenSumme = 0;// Variable zur Berechnung 
-                //des Speicherverbrauchs in Bytes
+                int zeichenSumme = 0;
+                // Variable zur Berechnung des Speicherverbrauchs in Bytes
                 for (String s : X) {
                     zeichenSumme += s.length();// Länge der Zeichenkette wird zur Summe hinzugefügt
                 }
-                long speicherX = zeichenSumme * 2; // Annahme: 2 Bytes pro Zeichen (UTF-16)
-                Speicherverbrauch.add(speicherX); // Hinzufügen des Speicherverbrauchs 
-                //der Menge X zur Liste des Speicherverbrauchs
+                long speicherX = zeichenSumme * 2; 
+                // Annahme: 2 Bytes pro Zeichen (UTF-16)
+                Speicherverbrauch.add(speicherX); 
+                // Hinzufügen des Speicherverbrauchsder Menge X zur Liste des Speicherverbrauchs
             }
         }
 
@@ -120,8 +133,7 @@ public class F0EstimatorRTF {
         // Berechnung des durchschnittlichen 
         //Speicherverbrauchs in KB
         double Abweichung = tatsächlich > 0 ? Math.abs(Durchschnitt_Schätz - tatsächlich) / tatsächlich * 100 : 0.0; 
-        //  Berechnung der prozentualen Abweichung 
-        //zur tatsächlichen Anzahl der unterschiedlichen Zeilen
+        //  Berechnung der prozentualen Abweichung zur tatsächlichen Anzahl der unterschiedlichen Zeilen
 
         //  Ausgabe der Ergebnisse
         System.out.printf("%n Erfolgreiche Durchlaeufe: %d von %d%n", erfolgreicheDurchläufe, Durchlaeufe); 
