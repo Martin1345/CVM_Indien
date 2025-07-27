@@ -14,8 +14,8 @@ public class F0EstimatorRTF {
         int Durchlaeufe = 1000; // Anzahl der Durchläufe für die Schätzung
 
         //  RTF-Datei einlesen
-        FileInputStream fis = new FileInputStream("C:\\Users\\marti\\Desktop\\Datensätze\\Hotel.rtf"); // Pfad zur Datei, die eingelesen 
-        //werden soll
+        FileInputStream fis = new FileInputStream("C:\\Users\\marti\\Desktop\\Datensätze\\Hotel.rtf"); 
+        // Pfad zur Datei, die eingelesen werden soll
         RTFEditorKit rtfKit = new RTFEditorKit(); // Einlesung der Daei mittels RTFEditorKit
         Document doc = rtfKit.createDefaultDocument(); // Erstellen eines neuen 
         //Dokuments für den RTF-Inhalt
@@ -38,7 +38,8 @@ public class F0EstimatorRTF {
 
         int m = Zeilen.size(); // Variable für die Anzahl der eingelesenen Zeilen
         int tatsächlich = new HashSet<>(Zeilen).size(); // Tatsächliche Anzahl unterschiedlicher Zeilen
-        System.out.printf(" Zeilen gelesen: %d\n Epsylon= %.4f | Delta = %.4f | Durchlaeufe = %d\n", m, Epsilon, Delta, Durchlaeufe); // Ausgabe der Parameter und Anzahl eingelesener Zeilen an den Nutzer
+        System.out.printf(" Zeilen gelesen: %d\n Epsylon= %.4f | Delta = %.4f | Durchlaeufe = %d\n", m, Epsilon, Delta, Durchlaeufe); 
+        // Ausgabe der Parameter und Anzahl eingelesener Zeilen an den Nutzer
 
         List<Double> Schätzungen = new ArrayList<>(); // Eigene Liste für die Schätzungen F₀
         List<Long> Speicherverbrauch = new ArrayList<>(); // Liste für den Speicherplatzverbrauch der Schätzungen
@@ -109,23 +110,33 @@ public class F0EstimatorRTF {
         }
 
         //  Durchschnittswerte berechnen
-        double Durchschnitt_Schätz = Schätzungen.stream().mapToDouble(Double::doubleValue).average().orElse(0.0); // Berechnung der duchschnittlichen 
+        double Durchschnitt_Schätz = Schätzungen.stream().mapToDouble(Double::doubleValue).average().orElse(0.0); 
+        // Berechnung der duchschnittlichen 
         //Schätzung F₀
-        double Durchschnitt_Zeit = erfolgreicheDurchläufe > 0 ? LaufzeitGesamt / erfolgreicheDurchläufe / 1e6 : 0.0; // Berechnung der durchschnittlichen
+        double Durchschnitt_Zeit = erfolgreicheDurchläufe > 0 ? LaufzeitGesamt / erfolgreicheDurchläufe / 1e6 : 0.0; 
+        // Berechnung der durchschnittlichen
         //Laufzeit in ms
-        double Durchschnitt_Speicher = Speicherverbrauch.stream().mapToLong(Long::longValue).average().orElse(0L) / 1024.0; // Berechnung des durchschnittlichen 
+        double Durchschnitt_Speicher = Speicherverbrauch.stream().mapToLong(Long::longValue).average().orElse(0L) / 1024.0; 
+        // Berechnung des durchschnittlichen 
         //Speicherverbrauchs in KB
-        double Abweichung = tatsächlich > 0 ? Math.abs(Durchschnitt_Schätz - tatsächlich) / tatsächlich * 100 : 0.0; //  Berechnung der prozentualen Abweichung 
+        double Abweichung = tatsächlich > 0 ? Math.abs(Durchschnitt_Schätz - tatsächlich) / tatsächlich * 100 : 0.0; 
+        //  Berechnung der prozentualen Abweichung 
         //zur tatsächlichen Anzahl der unterschiedlichen Zeilen
 
         //  Ausgabe der Ergebnisse
-        System.out.printf("%n Erfolgreiche Durchlaeufe: %d von %d%n", erfolgreicheDurchläufe, Durchlaeufe); // Ausgabe der erfolgreichen Durchläufe
-        System.out.printf(" Tatsächliche Anzahl unterschiedlicher Zeilen: %d%n", tatsächlich); // Ausgabe der tatsächlichen Anzahl unterschiedlicher Zeilen
-        System.out.printf(" Durchschnittliche Schaetzung: %.0f%n", Durchschnitt_Schätz); // Ausgabe der durchschnittlichen Schätzung F₀
-        System.out.printf(" Durchschnittliche Abweichung: %.2f%%%n", Abweichung); // Ausgabe der prozentualen Abweichung zur tatsächlichen Anzahl 
-        //unterschiedlicher Zeilen
-        System.out.printf(" Durchschnittliche Laufzeit: %.2f ms%n", Durchschnitt_Zeit); // Ausgabe der durchschnittlichen Laufzeit in Millisekunden
-        System.out.printf(" Gesamtlaufzeit aller Durchlaeufe: %.2f s%n", LaufzeitGesamt / 1e9); // Ausgabe der Gesamtlaufzeit aller Durchläufe in Sekunden
-        System.out.printf(" Durchschnittlicher Speicherverbrauch: %.0f KB%n", Durchschnitt_Speicher); // Ausgabe des durchschnittlichen 
+        System.out.printf("%n Erfolgreiche Durchlaeufe: %d von %d%n", erfolgreicheDurchläufe, Durchlaeufe); 
+        // Ausgabe der erfolgreichen Durchläufe
+        System.out.printf(" Tatsächliche Anzahl unterschiedlicher Zeilen: %d%n", tatsächlich); 
+        // Ausgabe der tatsächlichen Anzahl unterschiedlicher Zeilen
+        System.out.printf(" Durchschnittliche Schaetzung: %.0f%n", Durchschnitt_Schätz); 
+        // Ausgabe der durchschnittlichen Schätzung F₀
+        System.out.printf(" Durchschnittliche Abweichung: %.2f%%%n", Abweichung); 
+        // Ausgabe der prozentualen Abweichung zur tatsächlichen Anzahl unterschiedlicher Zeilen
+        System.out.printf(" Durchschnittliche Laufzeit: %.2f ms%n", Durchschnitt_Zeit); 
+        // Ausgabe der durchschnittlichen Laufzeit in Millisekunden
+        System.out.printf(" Gesamtlaufzeit aller Durchlaeufe: %.2f s%n", LaufzeitGesamt / 1e9); 
+        // Ausgabe der Gesamtlaufzeit aller Durchläufe in Sekunden
+        System.out.printf(" Durchschnittlicher Speicherverbrauch: %.0f KB%n", Durchschnitt_Speicher); 
+        // Ausgabe des durchschnittlichen 
         //Speicherverbrauchs in Kilobyte    }
 }
