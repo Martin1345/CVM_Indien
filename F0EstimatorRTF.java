@@ -12,7 +12,7 @@ public class F0EstimatorRTF {
     public static void main(String[] args) throws Exception {
         //  Einstellung der Parameter für die Schätzung des F₀-Werts
         double Epsilon = 0.005; 
-        // Tollerierter Fehler bei der Schätzung
+        // Tolerierter Fehler bei der Schätzung
         double Delta = 0.005;  
         // Wahrscheinlichkeit, dass die Schätzung außerhalb des Toleranzbereichs liegt
         int Durchlaeufe = 1000; 
@@ -24,8 +24,7 @@ public class F0EstimatorRTF {
         RTFEditorKit rtfKit = new RTFEditorKit(); 
         // Einlesung der Daei mittels RTFEditorKit
         Document doc = rtfKit.createDefaultDocument(); 
-        // Erstellen eines neuen 
-        //Dokuments für den RTF-Inhalt
+        // Erstellen eines neuen Dokuments für den RTF-Inhalt
         rtfKit.read(fis, doc, 0); // Einlesen des RTF-Inhalts in das Dokument
         fis.close(); // InputStream nach erfolgreichem Einlesen schließen
 
@@ -33,11 +32,11 @@ public class F0EstimatorRTF {
         // gesamten Text des Dokuments als String extrahieren
         String[] Zeilenarray = Volltext.split("\\r?\\n"); 
         // Aufteilen des Textes in  Zeilen anhand von Zeilenumbrüchen
-        List<String> Zeilen = new ArrayList<>(); // Liste, die 
-        //die Zeileninhalte speichert
+        List<String> Zeilen = new ArrayList<>(); 
+        // Liste, die die Zeileninhalte speichert
         for (String Zeile : Zeilenarray) { // Durchlauf aller Zeilen in der Datei
-            String gekürzt = Zeile.trim(); // Entferung von führenden
-            //und nachfolgenden Leerzeichen
+            String gekürzt = Zeile.trim(); 
+            // Entferung von führendenund nachfolgenden Leerzeichen
             if (!gekürzt.isEmpty()) { 
                 // Prüfung, ob die Zeile nicht leer ist
                 Zeilen.add(gekürzt); 
@@ -67,8 +66,7 @@ public class F0EstimatorRTF {
             // Zeit beim Start des Durchlaufs erfassen
 
             int Schwelle = (int) Math.ceil((12 / Math.pow(Epsilon, 2)) * Math.log(8.0 * m / Delta)); 
-            // Berechnung des Schwellwertes
-            //nach Formel aus der Aufgabenstellung
+            // Berechnung des Schwellwertes nach Formel aus der Ausarbeitung  
             double p = 1.0; 
             // Wahrscheinlichkeit für die Auswahl einer 
             //Zeile wird zu Beginn auf 1 gesetzt
@@ -80,7 +78,7 @@ public class F0EstimatorRTF {
             for (String Zeile : Zeilen) { 
                 // Durchlauf aller Zeilen in der Liste
                 if (Math.random() < p) { 
-                    // Zufälliges hinzufügen der Zeile zu X basierend
+                    // Zufälliges Hinzufügen der Zeile zu X basierend
                     //auf Zufallszahl und Wahrscheinlichkeit p
                     X.add(Zeile);
                     // Falls die Zufallszahl kleiner als p ist, 
@@ -94,7 +92,7 @@ public class F0EstimatorRTF {
                     for (String x : X) { // Durchlauf aller Elemente von X um eventuell Elemente zu entfernen
                         if (Math.random() < 0.5) { 
                             // Neue Zufallszahl für jedes Element soll diese kleiner
-                            //als 0.5 sein, wird das Element behalten
+                            //als 0,5 sein, wird das Element behalten
                             reduziert.add(x); 
                             // Element wird zur reduzierten Menge hinzugefügt
                         }
@@ -153,8 +151,7 @@ public class F0EstimatorRTF {
         // Berechnung der duchschnittlichen 
         //Schätzung F₀
         double Durchschnitt_Zeit = erfolgreicheDurchläufe > 0 ? LaufzeitGesamt / erfolgreicheDurchläufe / 1e6 : 0.0; 
-        // Berechnung der durchschnittlichen
-        //Laufzeit in ms
+        // Berechnung der durchschnittlichen Laufzeit in ms
         double Durchschnitt_Speicher = Speicherverbrauch.stream().mapToLong(Long::longValue).average().orElse(0L) / 1024.0; 
         // Berechnung des durchschnittlichen 
         //Speicherverbrauchs in KB
@@ -170,13 +167,11 @@ public class F0EstimatorRTF {
         System.out.printf(" Durchschnittliche Schaetzung: %.0f%n", Durchschnitt_Schätz); 
         // Ausgabe der durchschnittlichen Schätzung F₀
         System.out.printf(" Durchschnittliche Abweichung: %.2f%%%n", Abweichung); 
-        // Ausgabe der prozentualen Abweichung zur 
-        //tatsächlichen Anzahl unterschiedlicher Zeilen
+        // Ausgabe der prozentualen Abweichung zur  tatsächlichen Anzahl unterschiedlicher Zeilen
         System.out.printf(" Durchschnittliche Laufzeit: %.2f ms%n", Durchschnitt_Zeit); 
         // Ausgabe der durchschnittlichen Laufzeit in Millisekunden
         System.out.printf(" Gesamtlaufzeit aller Durchlaeufe: %.2f s%n", LaufzeitGesamt / 1e9); 
         // Ausgabe der Gesamtlaufzeit aller Durchläufe in Sekunden
         System.out.printf(" Durchschnittlicher Speicherverbrauch: %.0f KB%n", Durchschnitt_Speicher); 
-        // Ausgabe des durchschnittlichen 
-        //Speicherverbrauchs in Kilobyte    }
+        // Ausgabe des durchschnittlichen Speicherverbrauchs in Kilobyte    }
 }
