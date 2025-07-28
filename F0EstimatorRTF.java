@@ -1,7 +1,7 @@
 import java.io.FileInputStream; 
 // Importierung der Klasse zum Lesen von Dateien
 import java.util.*; 
-// Impportierung der Java Collections Framework Klassen
+// Impportierung der Java Collection Framework Klassen
 import javax.swing.text.Document; 
 // Importierung der Document-Klasse für Textverarbeitung
 import javax.swing.text.rtf.RTFEditorKit; 
@@ -22,7 +22,7 @@ public class F0EstimatorRTF {
         FileInputStream fis = new FileInputStream("C:\\Users\\marti\\Desktop\\Datensätze\\Hotel.rtf"); 
         // Pfad zur Datei, die eingelesen werden soll
         RTFEditorKit rtfKit = new RTFEditorKit(); 
-        // Einlesung der Daei mittels RTFEditorKit
+        // Einlesen der Datei mittels RTFEditorKit
         Document doc = rtfKit.createDefaultDocument(); 
         // Erstellen eines neuen Dokuments für den RTF-Inhalt
         rtfKit.read(fis, doc, 0); // Einlesen des RTF-Inhalts in das Dokument
@@ -36,7 +36,7 @@ public class F0EstimatorRTF {
         // Liste, die die Zeileninhalte speichert
         for (String Zeile : Zeilenarray) { // Durchlauf aller Zeilen in der Datei
             String gekürzt = Zeile.trim(); 
-            // Entferung von führendenund nachfolgenden Leerzeichen
+            // Entfernung von führenden und nachfolgenden Leerzeichen
             if (!gekürzt.isEmpty()) { 
                 // Prüfung, ob die Zeile nicht leer ist
                 Zeilen.add(gekürzt); 
@@ -61,7 +61,7 @@ public class F0EstimatorRTF {
         // Anzahl erfolgreicher Durchläufe
 
         for (int Durchlauf = 1; Durchlauf <= Durchlaeufe; Durchlauf++) { 
-            // Angegebenen Anzahl an Durchläufen wird durchlaufen
+            // Angegebene Anzahl an Durchläufen wird durchlaufen
             long Zeit_Start = System.nanoTime(); 
             // Zeit beim Start des Durchlaufs erfassen
 
@@ -104,7 +104,7 @@ public class F0EstimatorRTF {
                     // Die Wahrscheinlichkeit p wird halbiert
                     //,um die Schätzung zu verfeinern
                     if (X.size() == Schwelle) { 
-                        // Prüfung, ob die reduzierte Meng immer
+                        // Prüfung, ob die reduzierte Menge immer
                         //noch zu viele Elemente enthält
                         fehlgeschlagen = true;  
                         //Falls ja, wird der Durchlauf als fehlgeschlagen markiert
@@ -141,7 +141,7 @@ public class F0EstimatorRTF {
                 long speicherX = zeichenSumme * 2; 
                 // Annahme: 2 Bytes pro Zeichen (UTF-16)
                 Speicherverbrauch.add(speicherX); 
-                // Hinzufügen des Speicherverbrauchsder 
+                // Hinzufügen des Speicherverbrauchs der 
                 //Menge X zur Liste des Speicherverbrauchs
             }
         }
